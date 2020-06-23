@@ -14,17 +14,16 @@ class DatabaseWrapper:
     
     def create_round(self, id_game, num_mr_white, num_civilian, num_undercover): #blm
         cursor = self.connection.cursor(dictionary=True)
-        sql = "INSERT INTO game_round VALUES(default, %s, %s, 'BORROW')" #id, id_game, round, word1, word2, num_mr_white, num_cililian, num_undercover
+        sql = "INSERT INTO game_round VALUES(default, %s, %s, 'BORROW')" #id, id_game, round, word1, word2, num_mr_white, num_civilian, num_undercover
         cursor.execute( sql, (id_game, num_mr_white))
         self.connection.commit()
 
-    def update_round(self, id): #blm
+    def update_round(self, id, num_mr_white, num_civilian, num_undercover): #blm
         cursor = self.connection.cursor(dictionary=True)
         sql = "UPDATE game_round SET status = 0 WHERE id = {}".format(id)
         cursor.execute(sql)
-        result = cursor.fetchone()
         cursor.close()
-        return result
+        self.connection.commit()
 
     def delete_round(self, id):
         cursor = self.connection.cursor(dictionary=True)
