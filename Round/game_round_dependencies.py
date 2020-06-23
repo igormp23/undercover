@@ -12,42 +12,58 @@ class DatabaseWrapper:
         print("DB Wrapper Constructor")
         self.connection = connection
     
-    def create_round(self, id_game, num_mr_white, num_civilian, num_undercover):
-        # cursor = self.connection.cursor(dictionary=True)
-        # sql = "INSERT INTO circulation VALUES(default, %s, %s, 'BORROW')"
-        # cursor.execute( sql, (id_user, id_book))
-        # self.connection.commit()
+    def create_round(self, id_game, num_mr_white, num_civilian, num_undercover): #blm
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "INSERT INTO game_round VALUES(default, %s, %s, 'BORROW')" #id, id_game, round, word1, word2, num_mr_white, num_cililian, num_undercover
+        cursor.execute( sql, (id_game, num_mr_white))
+        self.connection.commit()
 
-    def update_round(self, id_book):
-        # cursor = self.connection.cursor(dictionary=True)
-        # sql = "SELECT status FROM circulation WHERE id_book = {}".format(id_book)
-        # cursor.execute(sql)
-        # result = cursor.fetchone()
-        # cursor.close()
-        # return result
+    def update_round(self, id): #blm
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "UPDATE game_round SET status = 0 WHERE id = {}".format(id)
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        cursor.close()
+        return result
 
     def delete_round(self, id):
-        # cursor = self.connection.cursor(dictionary=True)
-        # sql = "SELECT * FROM circulation WHERE id = {}".format(id)
-        # cursor.execute(sql)
-        # result = cursor.fetchone()
-        # cursor.close()
-        # return result
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "UPDATE game_round SET status = 0 WHERE id = {}".format(id)
+        cursor.execute(sql)
+        cursor.close()
+        self.connection.commit()
 
-    def create_round_detail(self, id, status):
-        # cursor = self.connection.cursor(dictionary=True)
-        # sql = "UPDATE circulation SET status = %s WHERE id = %s"
-        # cursor.execute(sql, (status, id))
-        # cursor.close()
-        # self.connection.commit()
+    def get_all_round(self):
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "SELECT * FROM game_round"
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        cursor.close()
+        return result
 
-    def mrwhite_guess(self, id, word1):
-        # cursor = self.connection.cursor(dictionary=True)
-        # sql = "UPDATE circulation SET status = %s WHERE id = %s"
-        # cursor.execute(sql, (status, id))
-        # cursor.close()
-        # self.connection.commit()
+    def get_round_by_id(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "SELECT * FROM game_round where id = {}".format(id)
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        cursor.close()
+        return result
 
+    def get_word1(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "SELECT word1 FROM game_round WHERE id = {}".format(id)
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        cursor.close()
+        return result
+
+    def get_word2(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "SELECT word2 FROM game_round WHERE id = {}".format(id)
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        cursor.close()
+        return result
 
     def close_connection(self):
         self.connection.close()
