@@ -12,16 +12,16 @@ class DatabaseWrapper:
         print("DB Wrapper Constructor")
         self.connection = connection
     
-    def create_round(self, id_game, round, word1, word2, num_mr_white, num_civilian, num_undercover): 
+    def create_round(self, data): 
         cursor = self.connection.cursor(dictionary=True)
         sql = "INSERT INTO game_round VALUES(default, %s, %s, %s, %s, %s, %s, %s, 1)" 
-        cursor.execute( sql, (id_game, round, word1, word2, num_mr_white, num_civilian, num_undercover))
+        cursor.execute( sql, (data['id_game'], data['round'], data['word1'], data['word2'], data['num_mr_white'], data['num_civilian'], data['num_undercover']))
         self.connection.commit()
 
-    def update_round(self, id, round, num_mr_white, num_civilian, num_undercover): 
+    def update_round(self, id, data): 
         cursor = self.connection.cursor(dictionary=True)
         sql = "UPDATE game_round SET round = %s, num_mr_white = %s, num_civilian =%s, num_undercover = %s  WHERE id = %s"
-        cursor.execute( sql, (round, num_mr_white, num_civilian, num_undercover, id))
+        cursor.execute( sql, (data['round'], data['num_mr_white'], data['num_civilian'], data['num_undercover'], id))
         cursor.close()
         self.connection.commit()
 
